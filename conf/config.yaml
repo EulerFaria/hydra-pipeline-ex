@@ -1,0 +1,7 @@
+defaults:
+  - dataset: imagenet
+  - gs_params: lr_param1
+
+
+
+
