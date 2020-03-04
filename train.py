@@ -1,11 +1,13 @@
 import hydra
-from omegaconf import DictConfig
+import os
 import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler,MinMaxScaler
+from omegaconf import DictConfig
+from pickle import dump
 
 
 def build_pipeline(cfg,log):
@@ -44,7 +46,7 @@ def hpo(pipe,X_train, y_train,cfg,log):
 
     log.info("Hyperparameters optimization:")
     
-    _=cfg['model'].pop('type', None)
+    model_name=cfg['model'].pop('type', None)
 
     _=cfg['decomp'].pop('type', None)
 
@@ -60,5 +62,7 @@ def hpo(pipe,X_train, y_train,cfg,log):
     model = gs.best_estimator_
     
     log.info(f"Best estimator: \n {model}")
+
+    dump(model,open(f"{os.getcwd()}/{model_name}.pkl",'wb'))
 
     return model

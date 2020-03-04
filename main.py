@@ -4,10 +4,6 @@ from omegaconf import DictConfig, OmegaConf
 from data_preparation import get_data, split
 from train import hpo, build_pipeline
 from evaluate import generate_report
-from warnings import simplefilter
-
-
-simplefilter(action='ignore', category=FutureWarning)
 
 
 @hydra.main(config_path="conf/config.yaml")
