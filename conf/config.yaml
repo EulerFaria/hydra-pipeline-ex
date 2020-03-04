@@ -1,5 +1,4 @@
 defaults:
-    - dataset: backup1
     - scaling: std
     - decomp: pca
     - model: lr

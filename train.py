@@ -8,44 +8,57 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler,MinMaxScaler
 
 
-def build_pipeline(cfg):
+def build_pipeline(cfg,log):
 
+    log.info("Building pipeline:")
     pipe = []
     
     if cfg['scaling']['type'] == 'std':
+
+        log.info("Adding StandardScaler to Pipeline")
+
         pipe.append(
             ('sc',StandardScaler())
             ) 
-    elif cfg['scaling']['type'] == 'minmax':      
+    elif cfg['scaling']['type'] == 'minmax':   
+        log.info("Adding MinMaxScaler to Pipeline")   
         pipe.append(
             ('sc',MinMaxScaler())
             ) 
 
     if cfg['decomp']['type'] == 'pca':
+        log.info("Adding PCA to Pipeline")
         pipe.append(
             ('pca',PCA())
             ) 
 
     if cfg['model']['type'] =='lr':
+        log.info("Adding LogisticRegression to Pipeline")
         pipe.append(
             ('lr',LogisticRegression())
         )
 
     return Pipeline(pipe)
 
-def hpo(pipe,X_train, y_train, cfg):
-    
-    cfg['model'].pop('type', None)
+def hpo(pipe,X_train, y_train,cfg,log):
 
-    cfg['decomp'].pop('type', None)
-    print(cfg)
+    log.info("Hyperparameters optimization:")
+    
+    _=cfg['model'].pop('type', None)
+
+    _=cfg['decomp'].pop('type', None)
 
     args = {}
     args.update(cfg['model'])
     args.update(cfg['decomp'])
 
+    log.info(f"Search space for HPO: {args}")
 
     gs = GridSearchCV(pipe, args, cv=5, scoring='f1')
     gs.fit(X_train, y_train)
 
-    return gs.best_estimator_
+    model = gs.best_estimator_
+    
+    log.info(f"Best estimator: \n {model}")
+
+    return model
