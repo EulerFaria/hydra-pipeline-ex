@@ -1,7 +1,12 @@
 defaults:
-  - dataset: imagenet
-  - gs_params: lr_param1
+    - dataset: backup1
+    - scaling: std
+    - decomp: pca
+    - model: lr
 
-
-
-
+    
+  
+  
+  
+  
+  

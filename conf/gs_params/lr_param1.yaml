@@ -1,4 +1,0 @@
-gs_params:
-  lr__C: [1, 2, 3]
-  lr__max_iter: [1000]
-
