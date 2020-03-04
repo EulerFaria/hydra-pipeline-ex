@@ -24,7 +24,7 @@ def experiment(cfg: DictConfig)-> None:
     #Building pipeline
     pipe = build_pipeline(cfg,log)
 
-    #Hyperparameter optimization
+    #Hyperparameter optimization & Dump best estimator
     model = hpo(pipe,X_train, y_train,cfg,log)
 
     #Evaluation report
