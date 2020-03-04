@@ -1,0 +1,11 @@
+defaults:
+    - scaling: std
+    - decomp: pca
+    - model: lr
+
+    
+  
+  
+  
+  
+  
