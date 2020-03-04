@@ -1,0 +1,10 @@
+model:
+  type: 'lr'
+  lr__C: [1,2,3]
+  lr__penalty: ['l1']
+  lr__max_iter: [1000]
+
+
+
+  
+  
