@@ -81,6 +81,6 @@ Stick to the concepts,you can take the main idea behind this example and adjust 
 Every feedback is welcomed. 
 
  # Authors: 
- - [EulerFaria](https://github.com/EulerFaria);
- - [Anderson Vinco]();
+ - [Euler Faria](https://github.com/EulerFaria);
+ - [Anderson Vinco](anderson.vinco@gmail.com);
  
