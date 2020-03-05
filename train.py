@@ -52,8 +52,8 @@ def hpo(pipe,X_train, y_train,cfg):
 
     _=cfg.decomp.pop('type', None)
 
-    model = OmegaConf.to_container(cfg.model)
-    decomp = OmegaConf.to_container(cfg.decomp)
+    model = OmegaConf.to_container(cfg.model,resolve=True)
+    decomp = OmegaConf.to_container(cfg.decomp,resolve=True)
     args = {**model, **decomp}
 
     logger.info(f"Search space for HPO: {args}")
