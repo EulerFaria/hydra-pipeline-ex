@@ -1,28 +1,27 @@
 import numpy as np
 import pandas as pd
+import logging
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer
 
-def get_data(log):
-    log.info("Reading dataset")
+logger = logging.getLogger(__name__)
 
-    dataset = load_breast_cancer()
+def get_data():
+    logger.info("Reading dataset")
 
-    X = dataset.data
-    y = dataset.target
-
-    log.info(f"Shape: {X.shape}")
+    X, y = load_breast_cancer(return_X_y=True)
+    logger.info(f"Shape: {X.shape}")
     
     return X, y
 
-def split(X, y, test_size,log):
+def split(X, y, test_size):
 
-    log.info("Splitting data")
+    logger.info("Splitting data")
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     
-    log.info(f"Traning dataset shape: {X_train.shape}")
-    log.info(f"Test dataset shape: {X_test.shape}")
+    logger.info(f"Training dataset shape: {X_train.shape}")
+    logger.info(f"Test dataset shape: {X_test.shape}")
 
     return X_train, X_test, y_train, y_test
 
