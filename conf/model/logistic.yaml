@@ -1,6 +1,6 @@
 model:
-  type: lr
-  lr__C: [
+  type: logistic
+  logistic__C: [
       1.00000000e-04,
       7.74263683e-04,
       5.99484250e-03,
@@ -12,5 +12,5 @@ model:
       1.29154967e+03,
       1.00000000e+04,
     ] #np.logspace(-4,4,10)
-  lr__penalty: [l2]
-  lr__max_iter: [1000]
+  logistic__penalty: [l2]
+  logistic__max_iter: [1000]

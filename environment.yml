@@ -12,5 +12,6 @@ dependencies:
   - pip:
     - hydra-core==0.11.3  
     - omegaconf==1.4.1
+    - xgboost==1.0.2
   
 

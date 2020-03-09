@@ -1,14 +1,14 @@
-import hydra
-import logging
-import os
-import numpy as np
+import hydra,logging,os,numpy as np
 from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import GridSearchCV
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler,MinMaxScaler
+from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
+from sklearn.model_selection import GridSearchCV
+
 from omegaconf import DictConfig, OmegaConf
 from pickle import dump
+
 
 logger = logging.getLogger(__name__)
 
@@ -36,10 +36,15 @@ def build_pipeline(cfg):
             ('pca',PCA())
             ) 
 
-    if cfg.model.type =='lr':
+    if cfg.model.type =='logistic':
         logger.info("Adding LogisticRegression to Pipeline")
         pipe.append(
-            ('lr',LogisticRegression())
+            (cfg.model.type,LogisticRegression())
+        )
+    elif cfg.model.type=='xgboost':
+        logger.info("Adding XGBClassifier to Pipeline")
+        pipe.append(
+            (cfg.model.type,XGBClassifier())
         )
 
     return Pipeline(pipe)
