@@ -77,7 +77,6 @@ Stick to the concepts,you can take the main idea behind this example and adjust 
 
 - Implement errror handling with try and except clauses and feed the logger;
 - Implement different Hyperparameter optimization methodos such as RandomSearchCV, BayesianOptimization;
-- Add more models in to `conf/model/*.yaml` files
 
 Every feedback is welcomed.
 
