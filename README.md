@@ -1,4 +1,4 @@
-# A framework for Data Science Experiments
+# A simple framework for Data Science Experiments
 
 ![MKT](https://img.shields.io/badge/version-v0.1-blue.svg)
 ![MKT](https://img.shields.io/badge/language-Python-orange.svg)
