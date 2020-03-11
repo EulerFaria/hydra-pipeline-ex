@@ -5,7 +5,7 @@
 
 # Description
 
-This repository contains a basic application of [Hydra](https://hydra.cc/docs/intro) from Pytorch and [Pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html) from Sklearn to facilitate reproducibility in Data Science projects during the experimentation cycle. It uses Hydra to manage a series of `config` files, to generate automatically the directories containing the outputs of each experiment, and to compose a new set of experiments by using the flag `--multirun`. Also, it takes advantage of Pipeline to assemble several steps that can be cross-validated together while setting different parameters. In this project it is used just two types of scaling methods: [MinMaxScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html), [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler) and a [PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html) to reduce the dimensionality of the feature matrix.
+This repository contains a basic application of [Hydra](https://hydra.cc/docs/intro) from Pytorch and [Pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html) from Sklearn to facilitate reproducibility in Data Science projects during the experimentation cycle. It uses Hydra to manage a series of `config` files, to generate automatically the directories containing the outputs of each experiment, and to compose a new set of experiments by using the flag `--multirun`. Also, it takes advantage of Pipeline to assemble several steps that can be cross-validated together while setting different parameters. In this project it is used just two types of scaling methods: [MinMaxScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html), [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler), a [PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html) to reduce the dimensionality of the feature matrix and two estimators:[XGBoost](https://xgboost.readthedocs.io/en/latest/python/python_intro.html) and [LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).
 
 All of those steps were **randomly chosen to serve as examples** of possible configurations to emphasize the capabilities of Hydra and Pipeline together. The dataset used for running the experiments is the Breast Cancer from sklearn which is a binary classification problem.
 
@@ -65,7 +65,7 @@ This command will apply the `defaults` parameters of `conf/config.yaml`.
 The other option is to run the following command:
 
 ```
-$ python main.py --multirun scaling=std,minmax
+$ python main.py --multirun scaling=std,minmax model=logistic,xgboost
 
 ```
 
