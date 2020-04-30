@@ -83,4 +83,4 @@ Every feedback is welcomed.
 # Authors:
 
 - [Euler Faria](https://github.com/EulerFaria);
-- [Anderson Vinco](anderson.vinco@gmail.com);
+- [Anderson Vinco](https://github.com/AndersonFVinco);
