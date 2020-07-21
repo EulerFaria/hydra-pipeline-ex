@@ -44,7 +44,10 @@ def run(data, cfg=None):
 
     opt.fit(X_train, y_train)
     
-    logger.info(f'Best score-> Mean:{opt.best_score_[0]}, Stddev:{opt.best_score_[1]}')
+    try:
+        logger.info(f'Best score-> Mean:{opt.best_score_[0]}, Stddev:{opt.best_score_[1]}')
+    except:
+        logger.info(f'Best score-> Mean:{opt.best_score_}')
 
     joblib.dump(opt, filename=f"{os.getcwd()}/pipeline.joblib")
     
