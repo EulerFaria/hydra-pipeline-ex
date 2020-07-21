@@ -1,0 +1,5 @@
+hyperparam_opt:
+  class: # complete name class. i.e: sklearn.model_selection.GridSearchCV
+  params: 
+    # param_1: value                  
+    # param_2: value

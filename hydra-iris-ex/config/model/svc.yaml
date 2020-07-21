@@ -1,0 +1,10 @@
+model:
+  class: sklearn.svm.SVC
+  params: 
+    C: [1, 2]
+    # param_1: value                  <-  in case of no hyperparameter optimization 
+    # param_2: value
+    # ....
+    # ---------OR-----------------
+    # param_1: [value1, value2, ...]  <-  in case of hyperparameter optimization 
+    # param_2: [value1, value2, ...]  
