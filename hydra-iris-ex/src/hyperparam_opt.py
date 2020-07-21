@@ -17,7 +17,7 @@ class BayesianOptCV(BaseEstimator, TransformerMixin):
     estimator: estimator object.
         This is assumed to implement the scikit-learn estimator interface. Either estimator needs to provide a score function, or scoring must be passed.
 
-    param_grid: dict 
+    param_bounds: dict 
         Dictionary with parameters names (str) as keys and lists of parameter settings to try as values. The min and max values will be used as boundaries to the search space
 
     int_params: list
@@ -41,11 +41,11 @@ class BayesianOptCV(BaseEstimator, TransformerMixin):
         - An iterable yielding (train, test) splits as arrays of indices.
 
     """
-    def __init__(self, estimator, param_grid, int_params, n_iter=10, init_points=2, scoring=None, cv=None, random_state=None, **kwargs):
+    def __init__(self, estimator, param_bounds, int_params, n_iter=10, init_points=2, scoring=None, cv=None, random_state=None, **kwargs):
         self.best_estimator_=estimator
         self.best_params_ = None
         self.best_score_ = None
-        self.param_grid = param_grid
+        self.param_bounds = param_bounds
         self.scoring = scoring
         self.int_params = int_params
         self.cv = cv
@@ -94,10 +94,10 @@ class BayesianOptCV(BaseEstimator, TransformerMixin):
             return self._cv_score(X, y, **kwargs)
 
         pbounds = dict()
-        for param in self.param_grid:
-            if not isinstance(self.param_grid[param], Iterable):
-                self.param_grid[param] = [self.param_grid[param]]
-            pbounds[param] = (min(self.param_grid[param]), max(self.param_grid[param]))
+        for param in self.param_bounds:
+            if not isinstance(self.param_bounds[param], Iterable):
+                self.param_bounds[param] = [self.param_bounds[param]]
+            pbounds[param] = (min(self.param_bounds[param]), max(self.param_bounds[param]))
 
         optimizer = BayesianOptimization(
             f= _cv_wrapper,
