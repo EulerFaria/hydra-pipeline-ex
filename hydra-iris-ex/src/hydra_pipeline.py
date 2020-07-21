@@ -93,11 +93,11 @@ def optimize_hyperparams(cfg, pipeline, logger):
 
     class_, class_name = _get_class(str(pipeline_step['class']))
 
-    param_grid = dict()
+    param_space = dict()
     for key in cfg:
         if key != 'hyperparam_opt':
-            param_grid = dict(param_grid, **OmegaConf.to_container(cfg[key].params, resolve=True))
+            param_space = dict(param_space, **OmegaConf.to_container(cfg[key].params, resolve=True))
 
 
     logger.info(f"Performing Hyperparameter Optimization")
-    return class_(pipeline, param_grid=param_grid, **cfg.hyperparam_opt.params)
+    return class_(pipeline, param_space, **cfg.hyperparam_opt.params)
