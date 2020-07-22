@@ -4,6 +4,10 @@ Tools for creating sklearn Pipelines with Hydra
 
 import importlib
 from omegaconf import DictConfig, OmegaConf
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def _get_class(step_class):
     """
@@ -29,7 +33,7 @@ def _get_class(step_class):
 
     return class_, class_name
 
-def add_step(cfg, step, logger):    
+def add_step(cfg, step):    
     """
     Returns an object defined by hydra configuration (``cfg``).
 
@@ -40,9 +44,6 @@ def add_step(cfg, step, logger):
 
     step: str
         Type of pipeline step to be added. The options are ``feature_selection``, ``scaling``, ``model``
-
-    logger: logging.Logger
-        Logger object
 
     Returns
     -------
@@ -68,8 +69,7 @@ def add_step(cfg, step, logger):
         setattr(pipeline_step, "params", {f'{class_name}__{k}': v for k, v in params.items()})
         return (class_name, class_())
 
-
-def optimize_hyperparams(cfg, pipeline, logger):
+def optimize_hyperparams(cfg, pipeline):
     """
     Runs hyperparameter optmization based on hydra's definitions
 
@@ -81,9 +81,6 @@ def optimize_hyperparams(cfg, pipeline, logger):
     pipeline: sklearn.pipeline.Pipeline
         Model Pipeline
 
-    logger: logging.Logger
-        Logger object
-
     Returns
     -------
     class_: instance of optmizer
@@ -91,7 +88,7 @@ def optimize_hyperparams(cfg, pipeline, logger):
     """
     pipeline_step = getattr(cfg, 'hyperparam_opt')
 
-    class_, class_name = _get_class(str(pipeline_step['class']))
+    class_, _ = _get_class(str(pipeline_step['class']))
 
     param_space = dict()
     for key in cfg:
@@ -99,5 +96,5 @@ def optimize_hyperparams(cfg, pipeline, logger):
             param_space = dict(param_space, **OmegaConf.to_container(cfg[key].params, resolve=True))
 
 
-    logger.info(f"Performing Hyperparameter Optimization")
+    logger.info(f"Performing Hyperparameter Optimization for the following parameter space {param_space}")
     return class_(pipeline, param_space, **cfg.hyperparam_opt.params)

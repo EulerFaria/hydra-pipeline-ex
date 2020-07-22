@@ -19,6 +19,7 @@ def run(cfg=None):
     -------
     data: pandas DataFrame or dict
     """
+    logger.info("Getting dataset")
     iris = load_iris()
     data = pd.DataFrame(iris.data, columns=iris.feature_names)
     data['Target'] = iris.target
