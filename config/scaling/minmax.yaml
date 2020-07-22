@@ -1,0 +1,4 @@
+scaling:
+  class: sklearn.preprocessing.MinMaxScaler
+  params:
+    copy: True

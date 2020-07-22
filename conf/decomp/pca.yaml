@@ -1,4 +1,0 @@
-decomp:
-  type: pca
-  pca__n_components: [0.90, 0.95, 0.98]
-  pca__svd_solver: [full]

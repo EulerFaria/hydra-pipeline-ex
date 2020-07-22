@@ -1,75 +1,25 @@
-import hydra,logging,os,numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler,MinMaxScaler
-from sklearn.linear_model import LogisticRegression
-from xgboost import XGBClassifier
-from sklearn.model_selection import GridSearchCV
+from src.data.make_dataset import run as data_acq
+from src.features.build_features import run as data_prep
+from src.models.train_model import train, split_data
+from src.report import generate_report
+from pathlib import Path
+from datetime import datetime as dt
+import hydra
+import os
 
-from omegaconf import DictConfig, OmegaConf
-from pickle import dump
+@hydra.main(config_path="config/config.yaml", strict=False)
+def run(cfg=None):
+    os.environ['path'] =  str(Path(__file__).resolve().parent)
+    # Getting dataset 
+    raw_data = data_acq(cfg)
+    # Building features
+    data = data_prep(raw_data, cfg)
+    #Split data 
+    X_train, X_test, y_train, y_test= split_data(data)
+    #Hyperparameter optimization
+    opt = train(X_train,y_train, cfg)
+    #Evaluation report
+    generate_report(opt,X_test,y_test)
 
-
-logger = logging.getLogger(__name__)
-
-def build_pipeline(cfg):
-
-    logger.info("Building pipeline:")
-    pipe = []
-    
-    if cfg.scaling.type == 'std':
-
-        logger.info("Adding StandardScaler to Pipeline")
-
-        pipe.append(
-            ('sc',StandardScaler())
-            ) 
-    elif cfg.scaling.type == 'minmax':   
-        logger.info("Adding MinMaxScaler to Pipeline")   
-        pipe.append(
-            ('sc',MinMaxScaler())
-            ) 
-
-    if cfg.decomp.type == 'pca':
-        logger.info("Adding PCA to Pipeline")
-        pipe.append(
-            ('pca',PCA())
-            ) 
-
-    if cfg.model.type =='logistic':
-        logger.info("Adding LogisticRegression to Pipeline")
-        pipe.append(
-            (cfg.model.type,LogisticRegression())
-        )
-    elif cfg.model.type=='xgboost':
-        logger.info("Adding XGBClassifier to Pipeline")
-        pipe.append(
-            (cfg.model.type,XGBClassifier())
-        )
-
-    return Pipeline(pipe)
-
-def hpo(pipe,X_train, y_train,cfg):
-
-    logger.info("Hyperparameters optimization:")
-    
-    model_name=cfg.model.pop('type', None)
-
-    _=cfg.decomp.pop('type', None)
-
-    model = OmegaConf.to_container(cfg.model,resolve=True)
-    decomp = OmegaConf.to_container(cfg.decomp,resolve=True)
-    args = {**model, **decomp}
-
-    logger.info(f"Search space for HPO: {args}")
-
-    gs = GridSearchCV(pipe, args, cv=5, scoring='f1')
-    gs.fit(X_train, y_train)
-
-    model = gs.best_estimator_
-    
-    logger.info(f"Best estimator: \n {model}")
-
-    dump(model,open(f"{os.getcwd()}/{model_name}.pkl",'wb'))
-
-    return model
+if __name__ == "__main__":    
+    run()
