@@ -1,6 +1,0 @@
-hyperparam_opt:
-  class: src.hyperparam_opt.BayesianOptCV
-  params: 
-    int_params: ['RandomForestClassifier__n_estimators', 'RandomForestClassifier__max_depth', 'RandomForestClassifier__random_state']
-    random_state: 43
-    scoring: 'accuracy'

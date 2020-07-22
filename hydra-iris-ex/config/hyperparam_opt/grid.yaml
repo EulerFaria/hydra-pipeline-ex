@@ -1,4 +1,0 @@
-hyperparam_opt:
-  class: sklearn.model_selection.GridSearchCV
-  params: 
-    scoring: 'accuracy'

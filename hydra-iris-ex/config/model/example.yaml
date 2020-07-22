@@ -1,9 +1,0 @@
-model:
-  class: # complete name class. i.e: sklearn.svm.SVM
-  params: 
-    # param_1: value                  <-  in case of no hyperparameter optimization 
-    # param_2: value
-    # ....
-    # ---------OR-----------------
-    # param_1: [value1, value2, ...]  <-  in case of hyperparameter optimization 
-    # param_2: [value1, value2, ...]  
