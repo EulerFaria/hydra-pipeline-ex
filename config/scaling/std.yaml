@@ -1,4 +1,2 @@
 scaling:
   class: sklearn.preprocessing.StandardScaler
-  params:
-    copy: True
