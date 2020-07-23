@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def run(cfg=None):
+def data_acq(cfg=None):
     """
     Runs the data acquision methods
 
