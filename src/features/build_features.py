@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def run(data, cfg=None):
+def data_prep(data, cfg=None):
     """
     Runs the data preparation methods
 
