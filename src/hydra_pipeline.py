@@ -69,6 +69,8 @@ def add_step(cfg, step):
     if "hyperparam_opt" not in cfg:
         if params:
             return (class_name, class_(**params))
+        else:
+            return (class_name, class_())
 
     else:
         if params:
@@ -104,7 +106,7 @@ def optimize_hyperparams(cfg, pipeline):
 
     param_space = dict()
     for key in cfg:
-        if (key != 'hyperparam_opt') and ('params' in cfg[key]):
+        if (key != 'hyperparam_opt') and (isinstance(cfg[key], Iterable)) and ('params' in cfg[key]):
             param_space = dict(param_space, **OmegaConf.to_container(cfg[key].params, resolve=True))
 
 
