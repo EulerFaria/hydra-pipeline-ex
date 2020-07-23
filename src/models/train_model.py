@@ -1,6 +1,3 @@
-"""
-Use this space to describe this module
-"""
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 import joblib
@@ -8,7 +5,6 @@ import os
 import logging
 
 from .. hydra_pipeline import add_step, optimize_hyperparams
-
 
 
 logger = logging.getLogger(__name__)
@@ -62,10 +58,7 @@ def train(X,y, cfg=None):
 
     opt.fit(X, y)
     
-    try:
-        logger.info(f'Best score-> Mean:{opt.best_score_[0]}, Stddev:{opt.best_score_[1]}')
-    except:
-        logger.info(f"Best score-> Mean:{opt.best_score_}, Std: {opt.cv_results_['std_test_score'][opt.best_index_]}")
+    logger.info(f"Best score-> Mean:{opt.best_score_}, Std: {opt.cv_results_['std_test_score'][opt.best_index_]}")
        
     joblib.dump(opt.best_estimator_, filename=f"{os.getcwd()}/pipeline.joblib")
     
