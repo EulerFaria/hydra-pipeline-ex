@@ -5,6 +5,7 @@ Tools for creating sklearn Pipelines with Hydra
 import importlib
 from omegaconf import DictConfig, OmegaConf
 import logging
+from collections.abc import Iterable
 
 logger = logging.getLogger(__name__)
 
@@ -56,17 +57,30 @@ def add_step(cfg, step):
     pipeline_step = getattr(cfg, step)
     step_class = str(pipeline_step['class'])
     
-    params = pipeline_step['params']
+    if 'params' in pipeline_step:
+        params = pipeline_step['params']
+    else:
+        params = None
 
     class_, class_name = _get_class(step_class)
 
     logger.info(f"Adding {class_name} to Pipeline")
 
     if "hyperparam_opt" not in cfg:
-        return (class_name, class_(**params))
+        if params:
+            return (class_name, class_(**params))
+        else:
+            return (class_name, class_())
 
     else:
-        setattr(pipeline_step, "params", {f'{class_name}__{k}': v for k, v in params.items()})
+        if params:
+            params_dict = dict()
+            for k,v in params.items():
+                if isinstance(v, Iterable):
+                    params_dict[f'{class_name}__{k}'] = v
+                else:
+                    params_dict[f'{class_name}__{k}'] = [v]
+            setattr(pipeline_step, "params", params_dict)
         return (class_name, class_())
 
 def optimize_hyperparams(cfg, pipeline):
@@ -92,7 +106,7 @@ def optimize_hyperparams(cfg, pipeline):
 
     param_space = dict()
     for key in cfg:
-        if key != 'hyperparam_opt':
+        if (key != 'hyperparam_opt') and (isinstance(cfg[key], Iterable)) and ('params' in cfg[key]):
             param_space = dict(param_space, **OmegaConf.to_container(cfg[key].params, resolve=True))
 
 

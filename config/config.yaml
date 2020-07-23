@@ -1,5 +1,5 @@
 defaults:
-  - hydra/output: custom  #<-- saves trained models in the 'models' folder
+  - hydra/output: custom  #<-- saves trained models in the 'experiments' folder
   - scaling: minmax
   - model: svc
   - hyperparam_opt: bayes

@@ -1,4 +1,4 @@
 hyperparam_opt:
   class: sklearn.model_selection.GridSearchCV
   params: 
-    scoring: 'accuracy'
+    scoring: accuracy # The scoring should be choose according with https://scikit-learn.org/stable/modules/model_evaluation.html
